@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>University Lessons</title>
+    <title>University Lessons in Dubai</title>
+    
+    <!-- Vue.js 2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    
+    <!-- Font Awesome from cdnjs -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
         }
         .lesson-card {
@@ -20,8 +26,14 @@
             padding: 15px;
             margin: 10px;
             display: inline-block;
-            width: 250px;
+            width: 280px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .lesson-card i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: blue;
         }
         button {
             padding: 8px 12px;
@@ -41,14 +53,40 @@
             border: 1px solid #ddd;
             border-radius: 10px;
         }
+        .sort-options {
+            margin: 20px 0;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
 
     <div id="app" class="container">
-        <h1>Available Lessons</h1>
-        <div v-for="lesson in lessons" :key="lesson.id" class="lesson-card">
-            <h3>{{ lesson.name }}</h3>
+        <h1>Available Lessons in Dubai</h1>
+
+        <!-- Sorting Options -->
+        <div class="sort-options">
+            <label for="sort-by">Sort By:</label>
+            <select v-model="sortBy">
+                <option value="name">Subject</option>
+                <option value="location">Location</option>
+                <option value="price">Price</option>
+                <option value="spaces">Availability</option>
+            </select>
+
+            <label for="order">Order:</label>
+            <select v-model="sortOrder">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+
+        <!-- Lesson Cards -->
+        <div v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-card">
+            <h3><i :class="lesson.icon"></i> {{ lesson.name }}</h3>
             <p><strong>Location:</strong> {{ lesson.location }}</p>
             <p><strong>Price:</strong> {{ lesson.price }} AED</p>
             <p><strong>Spaces Left:</strong> {{ lesson.spaces }}</p>
@@ -57,6 +95,7 @@
             </button>
         </div>
 
+        <!-- Cart Section -->
         <div class="cart" v-if="cart.length > 0">
             <h2>Cart</h2>
             <ul>
@@ -71,24 +110,38 @@
         new Vue({
             el: "#app",
             data: {
-                lessons:[
-                    { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: 5 },
-                    { id: 2, name: "Physics", location: "Dubai Marina", price: 250, spaces: 3 },
-                    { id: 3, name: "Chemistry", location: "Jumeirah Beach", price: 180, spaces: 2 },
-                    { id: 4, name: "Biology", location: "Al Barsha", price: 220, spaces: 6 },
-                    { id: 5, name: "Computer Science", location: "Business Bay", price: 300, spaces: 4 },
-                    { id: 6, name: "Economics", location: "Deira", price: 190, spaces: 7 },
-                    { id: 7, name: "Accounting", location: "Jebel Ali", price: 280, spaces: 3 },
-                    { id: 8, name: "Marketing", location: "Dubai Silicon Oasis", price: 260, spaces: 5 },
-                    { id: 9, name: "Psychology", location: "Al Qusais", price: 240, spaces: 8 },
-                    { id: 10, name: "History", location: "Dubai Festival City", price: 210, spaces: 6 },
-                    { id: 11, name: "Finance", location: "Mirdif", price: 270, spaces: 5 },
-                    { id: 12, name: "Business Administration", location: "Al Nahda", price: 290, spaces: 4 },
-                    { id: 13, name: "Art & Design", location: "The Palm Jumeirah", price: 310, spaces: 2 },
-                    { id: 14, name: "Law", location: "Dubai International City", price: 280, spaces: 3 },
-                    { id: 15, name: "Statistics", location: "Al Karama", price: 200, spaces: 5 }
+                sortBy: "name",
+                sortOrder: "asc",
+                lessons: [
+                    { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: getRandomSpaces(), icon: "fas fa-square-root-alt" },
+                    { id: 2, name: "Physics", location: "Dubai Marina", price: 250, spaces: getRandomSpaces(), icon: "fas fa-atom" },
+                    { id: 3, name: "Chemistry", location: "Jumeirah Beach", price: 180, spaces: getRandomSpaces(), icon: "fas fa-flask" },
+                    { id: 4, name: "Biology", location: "Al Barsha", price: 220, spaces: getRandomSpaces(), icon: "fas fa-dna" },
+                    { id: 5, name: "Computer Science", location: "Business Bay", price: 300, spaces: getRandomSpaces(), icon: "fas fa-laptop-code" },
+                    { id: 6, name: "Economics", location: "Deira", price: 190, spaces: getRandomSpaces(), icon: "fas fa-chart-line" },
+                    { id: 7, name: "Accounting", location: "Jebel Ali", price: 280, spaces: getRandomSpaces(), icon: "fas fa-calculator" },
+                    { id: 8, name: "Marketing", location: "Dubai Silicon Oasis", price: 260, spaces: getRandomSpaces(), icon: "fas fa-bullhorn" },
+                    { id: 9, name: "Psychology", location: "Al Qusais", price: 240, spaces: getRandomSpaces(), icon: "fas fa-brain" },
+                    { id: 10, name: "History", location: "Dubai Festival City", price: 210, spaces: getRandomSpaces(), icon: "fas fa-landmark" },
+                    { id: 11, name: "Finance", location: "Mirdif", price: 270, spaces: getRandomSpaces(), icon: "fas fa-piggy-bank" },
+                    { id: 12, name: "Business Administration", location: "Al Nahda", price: 290, spaces: getRandomSpaces(), icon: "fas fa-briefcase" },
+                    { id: 13, name: "Art & Design", location: "The Palm Jumeirah", price: 310, spaces: getRandomSpaces(), icon: "fas fa-palette" },
+                    { id: 14, name: "Law", location: "Dubai International City", price: 280, spaces: getRandomSpaces(), icon: "fas fa-balance-scale" },
+                    { id: 15, name: "Statistics", location: "Al Karama", price: 200, spaces: getRandomSpaces(), icon: "fas fa-percentage" }
                 ],
                 cart: []
+            },
+            computed: {
+                sortedLessons() {
+                    return this.lessons.slice().sort((a, b) => {
+                        let modifier = this.sortOrder === "asc" ? 1 : -1;
+                        if (this.sortBy === "name" || this.sortBy === "location") {
+                            return a[this.sortBy].localeCompare(b[this.sortBy]) * modifier;
+                        } else {
+                            return (a[this.sortBy] - b[this.sortBy]) * modifier;
+                        }
+                    });
+                }
             },
             methods: {
                 addToCart(lesson) {
@@ -99,6 +152,10 @@
                 }
             }
         });
+
+        function getRandomSpaces() {
+            return Math.floor(Math.random() * 6) + 5; // Generates random number between 5-10
+        }
     </script>
 
 </body>
