@@ -85,7 +85,7 @@
         </div>
 
         <!-- Lesson Cards -->
-        <div v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-card">
+        <div v-for="lesson in sortedLessons" class="lesson-card">
             <h3><i :class="lesson.icon"></i> {{ lesson.name }}</h3>
             <p><strong>Location:</strong> {{ lesson.location }}</p>
             <p><strong>Price:</strong> {{ lesson.price }} AED</p>
@@ -99,7 +99,7 @@
         <div class="cart" v-if="cart.length > 0">
             <h2>Cart</h2>
             <ul>
-                <li v-for="item in cart" :key="item.id">
+                <li v-for="item in cart">
                     {{ item.name }} - {{ item.location }} ({{ item.price }} AED)
                 </li>
             </ul>
@@ -134,19 +134,14 @@
             computed: {
                 sortedLessons() {
                     let sortedArray = this.lessons.slice();
-        
-                    // Sort based on type (string or number)
                     if (this.sortBy === "name" || this.sortBy === "location") {
                         sortedArray.sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
                     } else {
                         sortedArray.sort((a, b) => a[this.sortBy] - b[this.sortBy]);
                     }
-        
-                    // Reverse order if descending
                     if (this.sortOrder === "desc") {
                         sortedArray.reverse();
                     }
-        
                     return sortedArray;
                 }
             },
@@ -159,8 +154,6 @@
                 }
             }
         });
-        </script>
-        
-
+    </script>
 </body>
 </html>
