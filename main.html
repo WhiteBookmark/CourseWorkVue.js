@@ -113,34 +113,41 @@
                 sortBy: "name",
                 sortOrder: "asc",
                 lessons: [
-                    { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: getRandomSpaces(), icon: "fas fa-square-root-alt" },
-                    { id: 2, name: "Physics", location: "Dubai Marina", price: 250, spaces: getRandomSpaces(), icon: "fas fa-atom" },
-                    { id: 3, name: "Chemistry", location: "Jumeirah Beach", price: 180, spaces: getRandomSpaces(), icon: "fas fa-flask" },
-                    { id: 4, name: "Biology", location: "Al Barsha", price: 220, spaces: getRandomSpaces(), icon: "fas fa-dna" },
-                    { id: 5, name: "Computer Science", location: "Business Bay", price: 300, spaces: getRandomSpaces(), icon: "fas fa-laptop-code" },
-                    { id: 6, name: "Economics", location: "Deira", price: 190, spaces: getRandomSpaces(), icon: "fas fa-chart-line" },
-                    { id: 7, name: "Accounting", location: "Jebel Ali", price: 280, spaces: getRandomSpaces(), icon: "fas fa-calculator" },
-                    { id: 8, name: "Marketing", location: "Dubai Silicon Oasis", price: 260, spaces: getRandomSpaces(), icon: "fas fa-bullhorn" },
-                    { id: 9, name: "Psychology", location: "Al Qusais", price: 240, spaces: getRandomSpaces(), icon: "fas fa-brain" },
-                    { id: 10, name: "History", location: "Dubai Festival City", price: 210, spaces: getRandomSpaces(), icon: "fas fa-landmark" },
-                    { id: 11, name: "Finance", location: "Mirdif", price: 270, spaces: getRandomSpaces(), icon: "fas fa-piggy-bank" },
-                    { id: 12, name: "Business Administration", location: "Al Nahda", price: 290, spaces: getRandomSpaces(), icon: "fas fa-briefcase" },
-                    { id: 13, name: "Art & Design", location: "The Palm Jumeirah", price: 310, spaces: getRandomSpaces(), icon: "fas fa-palette" },
-                    { id: 14, name: "Law", location: "Dubai International City", price: 280, spaces: getRandomSpaces(), icon: "fas fa-balance-scale" },
-                    { id: 15, name: "Statistics", location: "Al Karama", price: 200, spaces: getRandomSpaces(), icon: "fas fa-percentage" }
+                    { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: 6, icon: "fas fa-square-root-alt" },
+                    { id: 2, name: "Physics", location: "Dubai Marina", price: 250, spaces: 7, icon: "fas fa-atom" },
+                    { id: 3, name: "Chemistry", location: "Jumeirah Beach", price: 180, spaces: 5, icon: "fas fa-flask" },
+                    { id: 4, name: "Biology", location: "Al Barsha", price: 220, spaces: 9, icon: "fas fa-dna" },
+                    { id: 5, name: "Computer Science", location: "Business Bay", price: 300, spaces: 8, icon: "fas fa-laptop-code" },
+                    { id: 6, name: "Economics", location: "Deira", price: 190, spaces: 10, icon: "fas fa-chart-line" },
+                    { id: 7, name: "Accounting", location: "Jebel Ali", price: 280, spaces: 7, icon: "fas fa-calculator" },
+                    { id: 8, name: "Marketing", location: "Dubai Silicon Oasis", price: 260, spaces: 6, icon: "fas fa-bullhorn" },
+                    { id: 9, name: "Psychology", location: "Al Qusais", price: 240, spaces: 8, icon: "fas fa-brain" },
+                    { id: 10, name: "History", location: "Dubai Festival City", price: 210, spaces: 9, icon: "fas fa-landmark" },
+                    { id: 11, name: "Finance", location: "Mirdif", price: 270, spaces: 5, icon: "fas fa-piggy-bank" },
+                    { id: 12, name: "Business Administration", location: "Al Nahda", price: 290, spaces: 10, icon: "fas fa-briefcase" },
+                    { id: 13, name: "Art & Design", location: "The Palm Jumeirah", price: 310, spaces: 6, icon: "fas fa-palette" },
+                    { id: 14, name: "Law", location: "Dubai International City", price: 280, spaces: 8, icon: "fas fa-balance-scale" },
+                    { id: 15, name: "Statistics", location: "Al Karama", price: 200, spaces: 7, icon: "fas fa-percentage" }
                 ],
                 cart: []
             },
             computed: {
                 sortedLessons() {
-                    return this.lessons.slice().sort((a, b) => {
-                        let modifier = this.sortOrder === "asc" ? 1 : -1;
-                        if (this.sortBy === "name" || this.sortBy === "location") {
-                            return a[this.sortBy].localeCompare(b[this.sortBy]) * modifier;
-                        } else {
-                            return (a[this.sortBy] - b[this.sortBy]) * modifier;
-                        }
-                    });
+                    let sortedArray = this.lessons.slice();
+        
+                    // Sort based on type (string or number)
+                    if (this.sortBy === "name" || this.sortBy === "location") {
+                        sortedArray.sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
+                    } else {
+                        sortedArray.sort((a, b) => a[this.sortBy] - b[this.sortBy]);
+                    }
+        
+                    // Reverse order if descending
+                    if (this.sortOrder === "desc") {
+                        sortedArray.reverse();
+                    }
+        
+                    return sortedArray;
                 }
             },
             methods: {
@@ -152,11 +159,8 @@
                 }
             }
         });
-
-        function getRandomSpaces() {
-            return Math.floor(Math.random() * 6) + 5; // Generates random number between 5-10
-        }
-    </script>
+        </script>
+        
 
 </body>
 </html>
