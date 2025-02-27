@@ -67,8 +67,8 @@
     <div id="app" class="container">
         <h1>{{ isCartVisible ? 'Your Shopping Cart' : 'Available Lessons in Dubai' }}</h1>
         
-        <button @click="toggleCart" :disabled="!isCartVisible && cart.length === 0">
-            {{ isCartVisible ? 'Back to Lessons' : 'View Cart' }}
+        <button @click="toggleCart">
+            {{ isCartVisible ? 'Back to Lessons' : 'Checkout' }}
         </button>
 
         <div v-if="!isCartVisible">
@@ -118,6 +118,13 @@
                     { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: 6, icon: "fas fa-square-root-alt" },
                     { id: 2, name: "Physics", location: "Dubai Marina", price: 250, spaces: 7, icon: "fas fa-atom" },
                     { id: 3, name: "Chemistry", location: "Jumeirah Beach", price: 180, spaces: 5, icon: "fas fa-flask" },
+                    { id: 4, name: "Biology", location: "Business Bay", price: 220, spaces: 8, icon: "fas fa-dna" },
+                    { id: 5, name: "Computer Science", location: "Internet City", price: 300, spaces: 10, icon: "fas fa-laptop-code" },
+                    { id: 6, name: "English", location: "Deira", price: 150, spaces: 12, icon: "fas fa-book" },
+                    { id: 7, name: "History", location: "Al Barsha", price: 180, spaces: 9, icon: "fas fa-landmark" },
+                    { id: 8, name: "Geography", location: "Karama", price: 160, spaces: 7, icon: "fas fa-globe" },
+                    { id: 9, name: "Business Studies", location: "JLT", price: 270, spaces: 5, icon: "fas fa-briefcase" },
+                    { id: 10, name: "Art", location: "Mirdif", price: 200, spaces: 6, icon: "fas fa-palette" }
                 ],
                 cart: [],
                 isCartVisible: false
