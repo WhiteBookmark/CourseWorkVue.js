@@ -13,15 +13,11 @@ repository is used).
 
 [ ] 1 Repo for backend 
 
-B. [GitHub Pages] the Vue.js App must be hosted and demonstrated on/via 
-GitHub Pages and connected (via Fetch) to your AWS (or render.com) 
-Express.js App (7% if requirement is fully covered, 3% if app is running 
-locally). 
+B. [GitHub Pages] the Vue.js App must be hosted and demonstrated on/via GitHub Pages and connected (via Fetch) to your AWS (or render.com) Express.js App (7% if requirement is fully covered, 3% if app is running locally).
 
-C. [AWS (or render.com)] the Node/Express server must be hosted on 
-Amazon AWS ( https://aws.amazon.com/ ) or on Render 
-( https://render.com ) (7% if requirement is fully covered, 3% if the server 
-is run locally, 0% if the server is hosted in another cloud-based solution). 
+[X] Host on Github pages
+
+C. [AWS (or render.com)] the Node/Express server must be hosted on Amazon AWS ( https://aws.amazon.com/ ) or on Render ( https://render.com ) (7% if requirement is fully covered, 3% if the server is run locally, 0% if the server is hosted in another cloud-based solution).
 
  [Front-End] “Display List of Lessons” functionality (7%):
 
