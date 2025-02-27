@@ -45,21 +45,21 @@ C. [AWS (or render.com)] the Node/Express server must be hosted on Amazon AWS ( 
 
 **• [Front-End] “Shopping Cart” functionality (5%): 
 **
-A. the shopping cart button should only be enabled after at least one lesson is added to cart (1%).
 
-B. clicking the shopping cart button should show the cart page, and clicking the button again goes back to the lesson page (1%).
+[X] A. the shopping cart button should only be enabled after at least one lesson is added to cart (1%).
 
-C. the shopping cart, in the cart page, should show all the lessons added (1%).
+[X] B. clicking the shopping cart button should show the cart page, and clicking the button again goes back to the lesson page (1%).
 
-D. in the shopping cart page, the user should be able to remove lessons from the shopping cart; the removed lesson is added back to the lesson list (in the lesson page) (2%).
+[X] C. the shopping cart, in the cart page, should show all the lessons added (1%).
+
+[X] D. in the shopping cart page, the user should be able to remove lessons from the shopping cart; the removed lesson is added back to the lesson list (in the lesson page) (2%).
 
 • [Front-End] Checkout functionality (6%): 
-A. the checkout is part of the shopping cart page (not part of the lessons 
-page) (1%). 
-B. the “checkout” button is always visible and only enabled (clickable) after 
-valid “Name” and “Phone” are provided (2%). 
-C. the “Name” must be letters only and the “Phone” must be numbers only; 
-the check must be done using JavaScript (suggestion: regular 
-expressions) (2%).  
-D. clicking the “checkout” button should display a message confirming the 
-order has been submitted (1%).
+
+A. the checkout is part of the shopping cart page (not part of the lessons page) (1%).
+
+B. the “checkout” button is always visible and only enabled (clickable) after valid “Name” and “Phone” are provided (2%). 
+
+C. the “Name” must be letters only and the “Phone” must be numbers only; the check must be done using JavaScript (suggestion: regular expressions) (2%).
+
+D. clicking the “checkout” button should display a message confirming the order has been submitted (1%).
