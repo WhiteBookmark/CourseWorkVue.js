@@ -68,6 +68,7 @@
         <h1>{{ isCartVisible ? 'Your Shopping Cart' : 'Available Lessons in Dubai' }}</h1>
         
         <button @click="toggleCart" :disabled="!isCartVisible && cart.length === 0">
+            {{ cart.length }}
             {{ isCartVisible ? 'Back to Lessons' : 'Checkout' }}
         </button>
 
