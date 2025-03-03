@@ -68,7 +68,7 @@
         <h1>{{ isCartVisible ? 'Your Shopping Cart' : 'Available Lessons in Dubai' }}</h1>
         
         <button @click="toggleCart" :disabled="!isCartVisible && cart.length === 0">
-            {{ isCartVisible ? 'Back to Lessons' : 'View Cart' }}
+            {{ isCartVisible ? 'Back to Lessons' : 'Checkout' }}
         </button>
 
         <div v-if="!isCartVisible">
