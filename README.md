@@ -56,10 +56,10 @@ C. [AWS (or render.com)] the Node/Express server must be hosted on Amazon AWS ( 
 
 • [Front-End] Checkout functionality (6%): 
 
-A. the checkout is part of the shopping cart page (not part of the lessons page) (1%).
+[X] A. the checkout is part of the shopping cart page (not part of the lessons page) (1%).
 
-B. the “checkout” button is always visible and only enabled (clickable) after valid “Name” and “Phone” are provided (2%). 
+[X] B. the “checkout” button is always visible and only enabled (clickable) after valid “Name” and “Phone” are provided (2%). 
 
-C. the “Name” must be letters only and the “Phone” must be numbers only; the check must be done using JavaScript (suggestion: regular expressions) (2%).
+[] C. the “Name” must be letters only and the “Phone” must be numbers only; the check must be done using JavaScript (suggestion: regular expressions) (2%).
 
-D. clicking the “checkout” button should display a message confirming the order has been submitted (1%).
+[X] D. clicking the “checkout” button should display a message confirming the order has been submitted (1%).
