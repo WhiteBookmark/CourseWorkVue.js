@@ -113,10 +113,16 @@
             </div>
         
             <h3>Total: {{ totalPrice }} AED</h3>
-        </div>
         
-    </div>
-
+            <!-- Checkout Form -->
+            <div class="checkout">
+                <h2>Checkout</h2>
+                <input type="text" v-model="customerName" placeholder="Enter your name" @input="validateInputs">
+                <input type="text" v-model="customerPhone" placeholder="Enter your phone number" @input="validateInputs">
+                <button @click="checkout" :disabled="!isCheckoutValid">Checkout</button>
+            </div>
+        </div>
+</div><div></div>
     <script>
         new Vue({
             el: "#app",
@@ -124,7 +130,7 @@
                 sortBy: "name",
                 sortOrder: "asc",
                 lessons: [
-                { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: 6, icon: "fas fa-square-root-alt" },
+                    { id: 1, name: "Math", location: "Downtown Dubai", price: 200, spaces: 6, icon: "fas fa-square-root-alt" },
                     { id: 2, name: "Physics", location: "Dubai Marina", price: 250, spaces: 7, icon: "fas fa-atom" },
                     { id: 3, name: "Chemistry", location: "Jumeirah Beach", price: 180, spaces: 5, icon: "fas fa-flask" },
                     { id: 4, name: "Biology", location: "Al Barsha", price: 220, spaces: 9, icon: "fas fa-dna" },
@@ -141,7 +147,9 @@
                     { id: 15, name: "Statistics", location: "Al Karama", price: 200, spaces: 7, icon: "fas fa-percentage" }
                 ],
                 cart: [],
-                isCartVisible: false
+                isCartVisible: false,
+                customerName: "",
+                customerPhone: ""
             },
             computed: {
                 sortedLessons() {
@@ -159,9 +167,24 @@
                 
                 totalPrice() {
                      return this.cart.reduce((sum, item) => sum + item.price, 0);
+                },
+
+
+                isCheckoutValid() {
+                    return /^[A-Za-z ]+$/.test(this.customerName) && /^\d+$/.test(this.customerPhone);
                 }
             },
             methods: {
+
+            validateInputs() {
+                this.isCheckoutValid;
+            },
+            checkout() {
+            alert("Order has been submitted successfully!");
+            this.cart = [];
+            this.customerName = "";
+            this.customerPhone = "";
+        },
                 addToCart(lesson) {
                     if (lesson.spaces > 0) {
                         this.cart.push(lesson);
