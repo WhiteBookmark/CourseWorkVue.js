@@ -1,5 +1,7 @@
 # CourseWorkVue.js
 
+Github Pages: https://whitebookmark.github.io/CourseWorkVue.js/
+
 Checklist:
 
 • General Requirements (20%): 
