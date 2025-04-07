@@ -62,6 +62,45 @@ C. [AWS (or render.com)] the Node/Express server must be hosted on Amazon AWS ( 
 
 [X] B. the “checkout” button is always visible and only enabled (clickable) after valid “Name” and “Phone” are provided (2%). 
 
-[] C. the “Name” must be letters only and the “Phone” must be numbers only; the check must be done using JavaScript (suggestion: regular expressions) (2%).
+[X] C. the “Name” must be letters only and the “Phone” must be numbers only; the check must be done using JavaScript (suggestion: regular expressions) (2%).
 
 [X] D. clicking the “checkout” button should display a message confirming the order has been submitted (1%).
+
+
+•  [Front-End (and Back-End)] Search Functionality (10%):
+
+
+[] The user can search for a lesson without specifying which attribute to search 
+
+For example, searching for “a” should return all the lessons with “a” in its 
+“title” or “location” or “price” or “availability”. 
+• Solutions provided are marked as follows. 
+[Base Marks (provided depending on which following approach is chosen)] 
+A. [Approach 1] (2%) “Implemented only in the Front-End”, you can implement 
+this feature using Vue.js and/or an existing JavaScript library (could not be 
+a Vue.js library). 
+OR 
+• [Approach 2] (7%) “Implemented functionally in the Back-End and 
+graphically in the Front-End”, the difference with “Approach 1” above is that 
+in this case the search needs to be performed in the Back-End (Express + 
+MongoDB), not directly and exclusively in the Front-End, but the Front-End 
+will receive (e.g., via REST API) results from the Back-End and manage the 
+graphical aspects for showing the search results. You cannot use any 
+existing library to implement this functionality. Otherwise, you will not 
+receive any mark for this part. The points for this approach are divided as 
+follows. 
+a. “Fetch and Visual Aspects” (3%), in the front end, a “fetch” 
+request should be created to send the search information 
+to the Back-End, and related filtered results obtained 
+should be shown in the Front-End. 
+b. “Express API” (4%), an Express.js route should be created 
+to handle the search request, and to return the search 
+results from the MongoDB. The student should implement 
+this as a GET route (“/search”), and should be able to test 
+it also without using the Front-End. 
+[Further Mark] 
+B. “search as you type” (3%), there is also this mark if the search supports 
+“search as you type”, i.e. the search starts when the user types the first letter 
+(displaying all the lessons containing that letter), and the result list is 
+dynamically filtered as more search letters are entered (similar to Google 
+Search). 
