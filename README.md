@@ -13,7 +13,7 @@ repository is used).
 
 [X] 1 Repo for frontend
 
-[ ] 1 Repo for backend 
+[X] 1 Repo for backend 
 
 B. [GitHub Pages] the Vue.js App must be hosted and demonstrated on/via GitHub Pages and connected (via Fetch) to your AWS (or render.com) Express.js App (7% if requirement is fully covered, 3% if app is running locally).
 
