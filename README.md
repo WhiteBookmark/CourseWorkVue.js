@@ -1,6 +1,16 @@
 # CourseWorkVue.js
 
+Frontend: https://github.com/WhiteBookmark/CourseWorkVue.js
+
+Backend: https://github.com/WhiteBookmark/BackendCourseWork
+
 Github Pages: https://whitebookmark.github.io/CourseWorkVue.js/
+
+Render: https://backendcoursework.onrender.com/
+
+Render - Get all lessons: https://backendcoursework.onrender.com/lessons
+
+Render - Get all orders: https://backendcoursework.onrender.com/orders
 
 Checklist:
 
