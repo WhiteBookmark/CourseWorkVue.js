@@ -1,208 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>University Lessons in Dubai</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>University Lessons in Dubai</title>
 
-	<!-- Vue.js 2 CDN -->
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<!-- Vue.js 2 CDN -->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
-	<!-- Font Awesome from cdnjs -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+		<!-- Font Awesome from cdnjs -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			text-align: center;
-		}
-		.container {
-			max-width: 900px;
-			margin: auto;
-		}
-		.lesson-card {
-			border: 1px solid #ddd;
-			border-radius: 10px;
-			padding: 15px;
-			margin: 10px;
-			display: inline-block;
-			width: 280px;
-			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-			text-align: left;
-		}
-		.lesson-card i {
-			font-size: 24px;
-			margin-right: 10px;
-			color: blue;
-		}
-		button {
-			padding: 8px 12px;
-			border: none;
-			background: blue;
-			color: white;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-		button:disabled {
-			background: gray;
-			cursor: not-allowed;
-		}
-		.cart {
-			margin-top: 20px;
-			padding: 15px;
-			border: 1px solid #ddd;
-			border-radius: 10px;
-		}
-		.sort-options {
-			margin: 20px 0;
-		}
-		select {
-			padding: 5px;
-			font-size: 16px;
-		}
-	</style>
-</head>
-<body>
-<div id="app" class="container">
-	<h1>{{ isCartVisible ? 'Your Shopping Cart' : 'Available Lessons in Dubai' }}</h1>
-
-	<button @click="toggleCart" :disabled="!isCartVisible && cart.length === 0">
-		{{ cart.length }} {{ isCartVisible ? 'Back to Lessons' : 'Checkout' }}
-	</button>
-
-	<div v-if="!isCartVisible">
-		<div class="sort-options">
-			<label for="sort-by">Sort By:</label>
-			<select v-model="sortBy">
-				<option value="topic">Subject</option>
-				<option value="location">Location</option>
-				<option value="price">Price</option>
-				<option value="space">Availability</option>
-			</select>
-			<label for="order">Order:</label>
-			<select v-model="sortOrder">
-				<option value="asc">Ascending</option>
-				<option value="desc">Descending</option>
-			</select>
-		</div>
-		<div v-for="lesson in sortedLessons" class="lesson-card" :key="lesson.id">
-			<h3><i :class="lesson.icon"></i> {{ lesson.topic }}</h3>
-			<p><strong>Location:</strong> {{ lesson.location }}</p>
-			<p><strong>Price:</strong> {{ lesson.price }} AED</p>
-			<p><strong>Spaces Left:</strong> {{ lesson.space }}</p>
-			<button @click="addToCart(lesson)" :disabled="lesson.space === 0">Add to Cart</button>
-		</div>
-	</div>
-
-	<div v-if="isCartVisible">
-		<h2>Your Shopping Cart</h2>
-
-		<div v-if="cart.length === 0">
-			<p>Your cart is empty. Go back and add lessons.</p>
-		</div>
-
-		<div v-for="(item, index) in cart" class="lesson-card" :key="index">
-			<h3><i :class="item.icon"></i> {{ item.topic }}</h3>
-			<p><strong>Location:</strong> {{ item.location }}</p>
-			<p><strong>Price:</strong> {{ item.price }} AED</p>
-			<button @click="removeFromCart(index)">Remove</button>
-		</div>
-
-		<h3>Total: {{ totalPrice }} AED</h3>
-
-		<!-- Checkout Form -->
-		<div class="checkout">
-			<h2>Checkout</h2>
-
-			<div>
-				<input type="text" v-model="customerName" placeholder="Enter your name" @input="validateInputs" />
-				<p v-if="nameError" style="color: red; margin: 5px 0 10px">{{ nameError }}</p>
-			</div>
-
-			<div>
-				<input type="text" v-model="customerPhone" placeholder="Enter your phone number" @input="validateInputs" />
-				<p v-if="phoneError" style="color: red; margin: 5px 0 10px">{{ phoneError }}</p>
-			</div>
-
-			<button @click="checkout" :disabled="!isCheckoutValid || cart.length < 1">Checkout</button>
-		</div>
-	</div>
-</div>
-
-<script>
-	new Vue({
-		el: '#app',
-		data: {
-			sortBy: 'topic',
-			sortOrder: 'asc',
-			lessons: [],
-			cart: [],
-			isCartVisible: false,
-			customerName: '',
-			customerPhone: '',
-			nameError: '',
-			phoneError: '',
-			isCheckoutValid: false,
-		},
-		computed: {
-			sortedLessons() {
-				let sortedArray = this.lessons.slice();
-				if (this.sortBy === 'topic' || this.sortBy === 'location') {
-					sortedArray.sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
-				} else {
-					sortedArray.sort((a, b) => a[this.sortBy] - b[this.sortBy]);
-				}
-				if (this.sortOrder === 'desc') {
-					sortedArray.reverse();
-				}
-				return sortedArray;
-			},
-			totalPrice() {
-				return this.cart.reduce((sum, item) => sum + item.price, 0);
-			},
-		},
-		methods: {
-			validateInputs() {
-				this.nameError = /^[A-Za-z ]+$/.test(this.customerName) || this.customerName === '' ? '' : 'Name should contain only letters';
-				this.phoneError = /^\d+$/.test(this.customerPhone) || this.customerPhone === '' ? '' : 'Phone should contain only numbers';
-				this.isCheckoutValid = this.nameError === '' && this.phoneError === '' && this.customerName && this.customerPhone;
-			},
-			checkout() {
-				alert('Order has been submitted successfully!');
-				this.cart = [];
-				this.customerName = '';
-				this.customerPhone = '';
-				this.isCheckoutValid = false;
-			},
-			addToCart(lesson) {
-				if (lesson.space > 0) {
-					this.cart.push(lesson);
-					lesson.space--;
-				}
-			},
-			removeFromCart(index) {
-				const removedLesson = this.cart.splice(index, 1)[0];
-				const lesson = this.lessons.find(l => l.id === removedLesson.id);
-				if (lesson) lesson.space++;
-			},
-			toggleCart() {
-				this.isCartVisible = !this.isCartVisible;
-			},
-			fetchLessons() {
-				fetch('https://backendcoursework.onrender.com/lessons')
-					.then(res => res.json())
-					.then(data => {
-						this.lessons = data;
-					})
-					.catch(error => {
-						console.error('Error fetching lessons:', error);
-					});
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				text-align: center;
 			}
-		},
-		mounted() {
-			this.fetchLessons();
-		}
-	});
-</script>
-</body>
+			.container {
+				max-width: 900px;
+				margin: auto;
+			}
+			.lesson-card {
+				border: 1px solid #ddd;
+				border-radius: 10px;
+				padding: 15px;
+				margin: 10px;
+				display: inline-block;
+				width: 280px;
+				box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+				text-align: left;
+			}
+			.lesson-card i {
+				font-size: 24px;
+				margin-right: 10px;
+				color: blue;
+			}
+			button {
+				padding: 8px 12px;
+				border: none;
+				background: blue;
+				color: white;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+			button:disabled {
+				background: gray;
+				cursor: not-allowed;
+			}
+			.cart {
+				margin-top: 20px;
+				padding: 15px;
+				border: 1px solid #ddd;
+				border-radius: 10px;
+			}
+			.sort-options {
+				margin: 20px 0;
+			}
+			select {
+				padding: 5px;
+				font-size: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" class="container">
+			<h1>{{ isCartVisible ? 'Your Shopping Cart' : 'Available Lessons in Dubai' }}</h1>
+
+			<button @click="toggleCart" :disabled="!isCartVisible && cart.length === 0">{{ cart.length }} {{ isCartVisible ? 'Back to Lessons' : 'Checkout' }}</button>
+
+			<div v-if="!isCartVisible">
+				<div class="sort-options">
+					<label for="sort-by">Sort By:</label>
+					<select v-model="sortBy">
+						<option value="topic">Subject</option>
+						<option value="location">Location</option>
+						<option value="price">Price</option>
+						<option value="space">Availability</option>
+					</select>
+					<label for="order">Order:</label>
+					<select v-model="sortOrder">
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+				<div v-for="lesson in sortedLessons" class="lesson-card" :key="lesson.id">
+					<h3><i :class="lesson.icon"></i> {{ lesson.topic }}</h3>
+					<p><strong>Location:</strong> {{ lesson.location }}</p>
+					<p><strong>Price:</strong> {{ lesson.price }} AED</p>
+					<p><strong>Spaces Left:</strong> {{ lesson.space }}</p>
+					<button @click="addToCart(lesson)" :disabled="lesson.space === 0">Add to Cart</button>
+				</div>
+			</div>
+
+			<div v-if="isCartVisible">
+				<h2>Your Shopping Cart</h2>
+
+				<div v-if="cart.length === 0">
+					<p>Your cart is empty. Go back and add lessons.</p>
+				</div>
+
+				<div v-for="(item, index) in cart" class="lesson-card" :key="index">
+					<h3><i :class="item.icon"></i> {{ item.topic }}</h3>
+					<p><strong>Location:</strong> {{ item.location }}</p>
+					<p><strong>Price:</strong> {{ item.price }} AED</p>
+					<button @click="removeFromCart(index)">Remove</button>
+				</div>
+
+				<h3>Total: {{ totalPrice }} AED</h3>
+
+				<!-- Checkout Form -->
+				<div class="checkout">
+					<h2>Checkout</h2>
+
+					<div>
+						<input type="text" v-model="customerName" placeholder="Enter your name" @input="validateInputs" />
+						<p v-if="nameError" style="color: red; margin: 5px 0 10px">{{ nameError }}</p>
+					</div>
+
+					<div>
+						<input type="text" v-model="customerPhone" placeholder="Enter your phone number" @input="validateInputs" />
+						<p v-if="phoneError" style="color: red; margin: 5px 0 10px">{{ phoneError }}</p>
+					</div>
+
+					<button @click="checkout" :disabled="!isCheckoutValid || cart.length < 1">Checkout</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			new Vue({
+				el: '#app',
+				data: {
+					sortBy: 'topic',
+					sortOrder: 'asc',
+					lessons: [],
+					cart: [],
+					isCartVisible: false,
+					customerName: '',
+					customerPhone: '',
+					nameError: '',
+					phoneError: '',
+					isCheckoutValid: false,
+				},
+				computed: {
+					sortedLessons() {
+						let sortedArray = this.lessons.slice();
+						if (this.sortBy === 'topic' || this.sortBy === 'location') {
+							sortedArray.sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
+						} else {
+							sortedArray.sort((a, b) => a[this.sortBy] - b[this.sortBy]);
+						}
+						if (this.sortOrder === 'desc') {
+							sortedArray.reverse();
+						}
+						return sortedArray;
+					},
+					totalPrice() {
+						return this.cart.reduce((sum, item) => sum + item.price, 0);
+					},
+				},
+				methods: {
+					validateInputs() {
+						this.nameError = /^[A-Za-z ]+$/.test(this.customerName) || this.customerName === '' ? '' : 'Name should contain only letters';
+						this.phoneError = /^\d+$/.test(this.customerPhone) || this.customerPhone === '' ? '' : 'Phone should contain only numbers';
+						this.isCheckoutValid = this.nameError === '' && this.phoneError === '' && this.customerName && this.customerPhone;
+					},
+					checkout() {
+						const lessonCounts = {};
+						this.cart.forEach((item) => {
+							if (!lessonCounts[item.id]) {
+								lessonCounts[item.id] = {
+									id: item.id,
+									space: 1,
+								};
+							} else {
+								lessonCounts[item.id].space += 1;
+							}
+						});
+
+						const payload = {
+							name: this.customerName,
+							phone: parseInt(this.customerPhone),
+							lessons: Object.values(lessonCounts),
+						};
+
+						fetch('https://backendcoursework.onrender.com/orders', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(payload),
+						})
+							.then((res) => {
+								if (!res.ok) {
+									throw new Error('Failed to submit order');
+								}
+								return res.json();
+							})
+							.then((data) => {
+								console.log('Order response:', data);
+
+								// Now update the lessons via PUT request
+								this.cart.forEach((lesson) => {
+									console.log(lesson);
+									// Find the full updated lesson object from lessons array
+									const updatedLesson = this.lessons.find((l) => l.id === lesson.id);
+									console.log(updatedLesson);
+									if (updatedLesson) {
+										fetch('https://backendcoursework.onrender.com/lessons', {
+											method: 'PUT',
+											headers: {
+												'Content-Type': 'application/json',
+											},
+											body: JSON.stringify(updatedLesson),
+										})
+											.then((res) => {
+												if (!res.ok) {
+													throw new Error(`Failed to update lesson with id ${lesson.id}`);
+												}
+												return res.json();
+											})
+											.then((putRes) => {
+												console.log(`Lesson ${lesson.id} updated:`, putRes);
+											})
+											.catch((err) => {
+												console.error(`Error updating lesson ${lesson.id}:`, err);
+											});
+									}
+								});
+
+								this.cart = [];
+								this.customerName = '';
+								this.customerPhone = '';
+								this.isCheckoutValid = false;
+								alert('Order was submitted successfully!');
+
+							})
+							.catch((error) => {
+								console.error('Error submitting order:', error);
+								alert('Order was not submitted successfully!');
+							});
+					},
+
+					addToCart(lesson) {
+						if (lesson.space > 0) {
+							this.cart.push(lesson);
+							lesson.space--;
+						}
+					},
+					removeFromCart(index) {
+						const removedLesson = this.cart.splice(index, 1)[0];
+						const lesson = this.lessons.find((l) => l.id === removedLesson.id);
+						if (lesson) lesson.space++;
+					},
+					toggleCart() {
+						this.isCartVisible = !this.isCartVisible;
+					},
+					fetchLessons() {
+						fetch('https://backendcoursework.onrender.com/lessons')
+							.then((res) => res.json())
+							.then((data) => {
+								this.lessons = data;
+								console.log(data);
+								console.log(this.lessons);
+							})
+							.catch((error) => {
+								console.error('Error fetching lessons:', error);
+							});
+					},
+				},
+				mounted() {
+					this.fetchLessons();
+				},
+			});
+		</script>
+	</body>
 </html>
