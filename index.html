@@ -280,7 +280,7 @@
 					},
 					performSearch() {
 						const encodedQuery = encodeURIComponent(this.searchQuery);
-						fetch(`http://localhost:3000/search?search_query=${encodedQuery}`)
+						fetch(`https://backendcoursework.onrender.com/search?search_query=${encodedQuery}`)
 							.then((res) => res.json())
 							.then((data) => {
 								this.lessons = data;
