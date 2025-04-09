@@ -64,7 +64,7 @@
 	</head>
 	<body>
 		<div id="app" class="container">
-			<h1>{{ isCartVisible ? 'Your Shopping Cart' : 'Available Lessons in Dubai' }}</h1>
+			<h1>{{ isCartVisible ? 'Your Shopping Cart' : 'After School Lessons' }}</h1>
 
 			<button @click="toggleCart" :disabled="!isCartVisible && cart.length === 0">{{ cart.length }} {{ isCartVisible ? 'Back to Lessons' : 'Checkout' }}</button>
 
